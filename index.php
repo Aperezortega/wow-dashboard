@@ -22,11 +22,12 @@ if ($handle !== false) {
 
 foreach ($data as $row) {
     $name = mysqli_real_escape_string($conn, $row['Name']);
+    $name = trim($name);
     $price = intval($row['Price']);
     $available = intval($row['Available']);
     echo 'item: ' . $name . ' Price: ' . $price . ' Available: ' . $available . PHP_EOL;
     echo '<br>';
-    $sql = "SELECT id_item FROM items WHERE name = '" . $name . "'";
+    $sql = "SELECT id_item FROM items WHERE name = '".$name."'";
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
@@ -39,7 +40,7 @@ foreach ($data as $row) {
         }
     } else {
         echo "Item not found, creating new item...<br>";
-        $sql = "INSERT INTO items (name) VALUES ('" . $name . "')";
+        $sql = "INSERT INTO items (name) VALUES ('".$name."')";
         if ($conn->query($sql) === TRUE) {
             echo "New item created successfully<br>";
             $id_item = $conn->insert_id;
