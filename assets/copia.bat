@@ -1,0 +1,2 @@
+copy "C:\Program Files (x86)\World of Warcraft\_classic_\WTF\Account\IEPII\SavedVariables\TradeSkillMaster.lua" "C:\Users\Alberto\Documents\GitHub\wowscrap\"
+"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" http://localhost/wowscrap/index.php

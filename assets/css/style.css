@@ -1,0 +1,13 @@
+.navbar-row {
+   height: 15vh;
+}
+
+.table-menu, .items-table {
+    border: 1px solid #dee2e6 !important;
+}
+.table-menu th, .table-menu td, .items-table th, .items-table td {
+    border: none !important;
+}
+.table-menu {
+    border-bottom: none !important;
+}

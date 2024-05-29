@@ -2,12 +2,23 @@
 include('simplehtmldom_1_9_1/simple_html_dom.php');
 include('db.php');
 ini_set('display_errors', 1);
+
+/**
+ * FUNCTIONS
+ */
+/**
+ * Log a message to log.txt
+ */
 function logMessage($message) {
     $logFile = 'log.txt';
     $currentTime = date('Y-m-d H:i:s');
     file_put_contents($logFile, "[$currentTime] $message\n", FILE_APPEND);
 }
 
+/**
+ * Get the name of an item from its ID
+ * @param int $id this is wowhead item id
+ */
 function getName($id){
     $baseUrl = 'https://www.wowhead.com/cata/item=';
     $searchUrl = $baseUrl . $id;
@@ -18,6 +29,10 @@ function getName($id){
     $name = trim($name);
     return $name;
 }
+/**
+ * Get the reagents for an item
+ * @param string $itemName
+ */
 function getReagents($itemName){
     $reagents = [];
     $baseUrl = 'https://www.wowhead.com/cata/search?q=';
@@ -25,7 +40,7 @@ function getReagents($itemName){
     $searchUrl = $baseUrl . $parseItem;
     $html = file_get_html($searchUrl);
 
-    foreach ($html->find('script[type=application/json]') as $script) {
+    foreach ($html->find('script[type=application/json]') as $script) { // item data is is stored in a script tag. we wukk be searching for something like "reagents":[[39343,2]]
         $json = json_decode($script->innertext, true);
         if (isset($json[0]['reagents'])) {
             $data = $json[0]['reagents'];
@@ -48,7 +63,12 @@ function getReagents($itemName){
         logMessage('LINE 42: Item not found');
     }
 }
-
+/**
+ * Insert reagents into the database
+ * @param array $reagents
+ * @param int $id_item
+ * @param mysqli $conn
+ */
 function insertReagents($reagents, $id_item, $conn){
     foreach($reagents as $reagent){
         $name = $conn->real_escape_string($reagent['name']);
