@@ -50,12 +50,6 @@
                         </div>
                         </li>
                         <li class="nav-item">
-                            <div class="input-group">
-                                <input type="search" id="searchBox" class="form-control" placeholder="Search" aria-label="Search">
-                                <button class="btn btn-outline-primary" type="button">
-                                    <i class="fas fa-search"></i>
-                                </button>
-                            </div>
                         </li>
                     </ul>
                 </div>

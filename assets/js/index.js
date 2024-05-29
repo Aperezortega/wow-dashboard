@@ -1,4 +1,10 @@
 $(document).ready(function() {
+var table = $('#itemsTable').DataTable();
+
+    // Mueve el control de búsqueda a tu <ul>
+    $('.dataTables_filter').appendTo('.table-menu');
+    // Mueve el control de "show entries" a tu <ul>
+    $('.dataTables_length').appendTo('.table-menu');
     function getItems() {
         var date = $('#date-picker').val();
         var type = $('#typeSelector').val();
