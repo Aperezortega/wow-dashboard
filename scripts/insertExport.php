@@ -1,10 +1,10 @@
 <?php
 //SELECT i.name, s.price, s.available FROM items i INNER JOIN scrap s ON i.id_item = s.id_item WHERE TYPE = 4
 
-$file = 'export.csv';
+$file = '../assets/export.csv';
 $handle = fopen($file, 'r');
 $data = [];
-include('db.php') ;
+include('../db.php') ;
 if ($handle !== false) {
     // Read and discard the first line
     fgets($handle);

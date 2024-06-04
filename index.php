@@ -42,14 +42,16 @@
                         Type:
                         <select id="typeSelector"></select>
                         </li>
-                        <li>
+                        <li class="nav-item">
                         <div class="input-group">
                             <button class="btn btn-outline-secondary" type="button" id="prev-day">←</button>
                             <input type="date" class="form-control text-center" id="date-picker">
                             <button class="btn btn-outline-secondary" type="button" id="next-day">→</button>
                         </div>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" id="1">
+                        </li>
+                        <li class="nav-item" id="2">
                         </li>
                     </ul>
                 </div>

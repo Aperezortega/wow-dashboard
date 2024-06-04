@@ -1,10 +1,5 @@
 $(document).ready(function() {
-var table = $('#itemsTable').DataTable();
-
-    // Mueve el control de búsqueda a tu <ul>
-    $('.dataTables_filter').appendTo('.table-menu');
-    // Mueve el control de "show entries" a tu <ul>
-    $('.dataTables_length').appendTo('.table-menu');
+    var table = $('#itemsTable').DataTable();
     function getItems() {
         var date = $('#date-picker').val();
         var type = $('#typeSelector').val();
@@ -13,9 +8,9 @@ var table = $('#itemsTable').DataTable();
             type: 'GET',
             data: { action: 'getItems', date: date, type: type },
             success: function(response) {
-              console.log(response);
-              var data = JSON.parse(response);
-              var html = '';
+                console.log(response);
+                var data = JSON.parse(response);
+                var html = '';
                 for (var i = 0; i < data.length; i++) {
                     html += '<tr value="' + data[i].id_item + '">';
                     html += '<td>' + (i+1) + '</td>';
@@ -27,8 +22,9 @@ var table = $('#itemsTable').DataTable();
                     html += '<td></td>';
                     html += '</tr>';
                 }
+                table.destroy(); // Destruye la tabla existente
                 $('#itemsTable tbody').empty().append(html);
-                $('#itemsTable').DataTable(); // Inicializa DataTables
+                table = $('#itemsTable').DataTable(); // Inicializa DataTables
             },
             error: function() {
                 console.log('Error al obtener los items');
