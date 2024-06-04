@@ -11,3 +11,30 @@
 .table-menu {
     border-bottom: none !important;
 }
+.gold {
+    color: goldenrod;
+    font-weight: bold;
+}
+
+.silver {
+    color: silver;
+    font-weight: normal;
+    font-size: 85%;
+}
+
+.copper {
+    color: #b87333;
+    font-weight: normal;
+    font-size: 70%; 
+}
+
+.negative {
+    color: red !important;
+}
+
+.positive {
+    color: green !important;
+}
+#itemsTable tbody tr {
+    cursor: pointer;
+}

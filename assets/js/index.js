@@ -15,9 +15,18 @@ $(document).ready(function() {
                     html += '<tr value="' + data[i].id_item + '">';
                     html += '<td>' + (i+1) + '</td>';
                     html += '<td>' + data[i].name + '</td>';
-                    html += '<td>' + data[i].price + '</td>';
-                    html += '<td>' + data[i].percentage_difference + '%</td>';
-                    html += '<td>' + data[i].average_price + '</td>';
+                    var averagePrice = Math.round(data[i].average_price).toString();
+                    var gold = averagePrice.slice(0, -4);
+                    var silver = averagePrice.slice(-4, -2);
+                    var copper = averagePrice.slice(-2);
+                    html += '<td><span class="gold">' + gold + '</span><span class="silver">' + silver + '</span><span class="copper">' + copper + '</span></td>';
+                    var price = data[i].price.toString();
+                    var gold = price.slice(0, -4);
+                    var silver = price.slice(-4, -2);
+                    var copper = price.slice(-2);
+                    html += '<td><span class="gold">' + gold + '</span><span class="silver">' + silver + '</span><span class="copper">' + copper + '</span></td>';
+                    var percentageClass = data[i].percentage_difference < 0 ? 'negative' : 'positive';
+                    html += '<td class="' + percentageClass + '">' + data[i].percentage_difference + '%</td>';
                     html += '<td>' + data[i].available + '</td>';
                     html += '<td></td>';
                     html += '</tr>';
@@ -25,6 +34,10 @@ $(document).ready(function() {
                 table.destroy(); // Destruye la tabla existente
                 $('#itemsTable tbody').empty().append(html);
                 table = $('#itemsTable').DataTable(); // Inicializa DataTables
+                $(document).on('dblclick', '#itemsTable tbody tr', function() {
+                    var itemId = $(this).attr('value');
+                    window.location.href = 'http://localhost/wowscrap/items.php?item=' + itemId;
+                });
             },
             error: function() {
                 console.log('Error al obtener los items');
