@@ -28,7 +28,7 @@ function getItems($conn, $date = null, $type = null) {
             }
         }
         return $items;
-    } else if ($type == null) {
+    } else if ($type == -1) {
         $sql = "SELECT s.id_item, i.name, s.price, s.available FROM scrap s INNER JOIN items i ON s.id_item = i.id_item WHERE DATE(s.date) = '$date'";
     } else {
         $sql = "SELECT s.id_item, i.name, s.price, s.available FROM scrap s INNER JOIN items i ON s.id_item = i.id_item WHERE DATE(s.date) = '$date' AND i.type = $type";
