@@ -1,3 +1,16 @@
+html, body {
+    height: 100%;
+}
+body {
+    display: flex;
+    flex-direction: column;
+}
+.content {
+    flex: 1;
+}
+.table-container {
+    overflow-x: auto;
+}
 .navbar-row {
    height: 15vh;
 }
@@ -13,13 +26,13 @@
 }
 .gold {
     color: goldenrod;
-    font-weight: bold;
+    font-weight: bolder;
 }
 
 .silver {
     color: silver;
     font-weight: normal;
-    font-size: 85%;
+    font-size: 70%;
 }
 
 .copper {
@@ -37,4 +50,23 @@
 }
 #itemsTable tbody tr {
     cursor: pointer;
+}
+.date-picker {
+    width: 50%;
+}
+@media (max-width: 768px) {
+    .date-picker {
+        width: 100%;
+    }
+}
+
+#itemsTable_filter{
+    margin-bottom: 20px;
+}
+.dataTables_length{
+    margin-top: 5px;
+}
+
+#reagentTree{
+    font-size: 1rem;
 }

@@ -31,9 +31,11 @@ $(document).ready(function() {
                     html += '<td></td>';
                     html += '</tr>';
                 }
-                table.destroy(); // Destruye la tabla existente
+                table.destroy(); 
                 $('#itemsTable tbody').empty().append(html);
-                table = $('#itemsTable').DataTable(); // Inicializa DataTables
+                table = $('#itemsTable').DataTable({
+                    pageLength: 25
+                }); 
                 $(document).on('dblclick', '#itemsTable tbody tr', function() {
                     var itemId = $(this).attr('value');
                     window.location.href = 'http://localhost/wowscrap/items.php?item=' + itemId;
