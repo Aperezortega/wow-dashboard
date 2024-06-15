@@ -21,13 +21,18 @@ $(document).ready(function() {
                     var copper = averagePrice.slice(-2);
                     html += '<td><span class="gold">' + gold + '</span><span class="silver">' + silver + '</span><span class="copper">' + copper + '</span></td>';
                     var price = data[i].price.toString();
-                    var gold = price.slice(0, -4);
-                    var silver = price.slice(-4, -2);
-                    var copper = price.slice(-2);
+                    gold = price.slice(0, -4);
+                    silver = price.slice(-4, -2);
+                    copper = price.slice(-2);
                     html += '<td><span class="gold">' + gold + '</span><span class="silver">' + silver + '</span><span class="copper">' + copper + '</span></td>';
                     var percentageClass = data[i].percentage_difference < 0 ? 'negative' : 'positive';
                     html += '<td class="' + percentageClass + '">' + data[i].percentage_difference + '%</td>';
-                    html += '<td>' + data[i].available + '</td>';
+                    // Update to show profit instead of available
+                    var profit = data[i].profit.toString();
+                    gold = profit.slice(0, -4);
+                    silver = profit.slice(-4, -2);
+                    copper = profit.slice(-2);
+                    html += '<td><span class="gold">' + gold + '</span><span class="silver">' + silver + '</span><span class="copper">' + copper + '</span></td>';
                     html += '<td></td>';
                     html += '</tr>';
                 }

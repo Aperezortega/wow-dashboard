@@ -75,7 +75,7 @@
                                     <th scope="col" class="w-15">Average Price</th>
                                     <th scope="col" class="w-15">Price</th>
                                     <th scope="col" class="w-15">Difference with Yesterday</th>
-                                    <th scope="col" class="w-15">Available</th>
+                                    <th scope="col" class="w-15">Profit</th>
                                     <th scope="col" class="w-10">Sold</th>
                                 </tr>
                             </thead>

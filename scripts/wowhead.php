@@ -1,6 +1,6 @@
 <?php
-include('simplehtmldom_1_9_1/simple_html_dom.php');
-include('db.php');
+include('../simplehtmldom_1_9_1/simple_html_dom.php');
+include('../db.php');
 ini_set('display_errors', 1);
 
 /**
@@ -107,7 +107,7 @@ function insertReagents($reagents, $id_item, $conn){
     }
 }
 $items = [];
-$sql = "SELECT id_item, name FROM items where type = 2";
+$sql = "SELECT id_item, name FROM items where type = 1  AND id_item NOT IN (SELECT id_item FROM architecture)";
 $result = $conn->query($sql);
 foreach ($result as $row) {
     $items[$row['id_item']] = $row['name'];

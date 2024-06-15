@@ -37,13 +37,14 @@ function getItems($conn, $date = null, $type = null) {
     $items = array();
     if ($result->num_rows > 0) {
         while($row = $result->fetch_assoc()) {
+            $profit = ($row['price'] - getCraftingCost($conn, $row['id_item']));
             $item = array(
                 'id_item' => $row['id_item'],
                 'name' => $row['name'],
                 'price' => $row['price'],
                 'percentage_difference' => getPriceDif($conn, $row['id_item'], $date),
                 'average_price' => getAveragePrice($conn, $row['id_item']),
-                'available' => $row['available']
+                'profit' => $profit,
             );
             $items[] = $item;
         }

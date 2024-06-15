@@ -5,6 +5,7 @@ $file = '../assets/export.csv';
 $handle = fopen($file, 'r');
 $data = [];
 include('../db.php') ;
+$includeWowhead = false;
 if ($handle !== false) {
     // Read and discard the first line
     fgets($handle);
@@ -41,6 +42,7 @@ foreach ($data as $row) {
             echo "Error: " . $sql . "<br>" . $conn->error;
         }
     } else {
+        $includeWowhead = true;
         echo "Item not found, creating new item...<br>";
         $sql = "INSERT INTO items (name) VALUES ('".$name."')";
         if ($conn->query($sql) === TRUE) {
@@ -57,5 +59,9 @@ foreach ($data as $row) {
         }
     }
     echo '############################################# <br>';
+    if ($includeWowhead) {
+        echo 'Include Wowhead <br>';
+        include('wowhead.php');
+    }
 }
 ?>
