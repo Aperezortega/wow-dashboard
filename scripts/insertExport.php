@@ -44,7 +44,11 @@ foreach ($data as $row) {
     } else {
         $includeWowhead = true;
         echo "Item not found, creating new item...<br>";
-        $sql = "INSERT INTO items (name) VALUES ('".$name."')";
+        if (strpos($name, "Glyph") !== false) {
+            $sql = "INSERT INTO items (name, type) VALUES ('".$name."', 1)";
+        } else {
+            $sql = "INSERT INTO items (name) VALUES ('".$name."')";
+        }
         if ($conn->query($sql) === TRUE) {
             echo "New item created successfully<br>";
             $id_item = $conn->insert_id;

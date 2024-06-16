@@ -1,5 +1,6 @@
 $(document).ready(function() {
     var table = $('#itemsTable').DataTable();
+    fetchItemsAndInks();
     function getItems() {
         var date = $('#date-picker').val();
         var type = $('#typeSelector').val();
@@ -51,7 +52,39 @@ $(document).ready(function() {
             }
         });
     }
-
+    function fetchItemsAndInks() {
+        // Realizar la llamada AJAX
+        $.ajax({
+            url: './controller.php',
+            type: 'GET',
+            data: { action: 'getAsideData'},
+            dataType: 'json',
+            success: function(data) {
+                console.log('####################################');
+                console.log(data);
+                // Asumiendo que `data` tiene dos propiedades: items y inks
+                fillTable('#top10', data.glyphs, ['Glyph', 'Ink']);
+                fillTable('#cheapestHerbs', data.inks, ['name', 'herbs']);
+            },
+            error: function(error) {
+                console.error('Error:', error);
+            }
+        });
+    }
+    
+    function fillTable(tableId, data, columns) {
+        const $tableBody = $(tableId).find('tbody');
+        $tableBody.empty(); // Limpiar el cuerpo de la tabla antes de llenarlo
+    
+        $.each(data, function(index, row) {
+            const $tr = $('<tr></tr>');
+            $.each(columns, function(i, col) {
+                const $td = $('<td></td>').text(row[col]);
+                $tr.append($td);
+            });
+            $tableBody.append($tr);
+        });
+    }
     $.ajax({
         url: './controller.php', 
         type: 'GET',

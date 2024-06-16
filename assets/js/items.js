@@ -132,8 +132,9 @@ $(document).ready(function() {
         type: 'GET',
         data: { action: 'getReagents', idItem: idItem },
         success: function(response) {
+            
             var data = JSON.parse(response);
-
+            console.log(data);
             $("#reagentTree").igTree({
                 dataSource: data, 
                 singleBranchExpand: false,

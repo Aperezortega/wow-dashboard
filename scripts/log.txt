@@ -2023,3 +2023,62 @@
 [2024-06-15 17:53:05] LINE 38: REAGENT FOUND FOR ITEM Light Parchment WITH QUANTITY 1
 [2024-06-15 17:53:05] LINE 62: New ARQ record created successfully
 [2024-06-15 17:53:05] LINE 62: New ARQ record created successfully
+[2024-06-16 09:50:22] LINE 42: Item not found
+[2024-06-16 09:50:26] LINE 38: REAGENT FOUND FOR ITEM Ink of the Sea WITH QUANTITY 3
+[2024-06-16 09:50:28] LINE 38: REAGENT FOUND FOR ITEM Resilient Parchment WITH QUANTITY 1
+[2024-06-16 09:50:28] LINE 62: New ARQ record created successfully
+[2024-06-16 09:50:28] LINE 62: New ARQ record created successfully
+[2024-06-16 09:50:31] LINE 38: REAGENT FOUND FOR ITEM Lion's Ink WITH QUANTITY 3
+[2024-06-16 09:50:33] LINE 38: REAGENT FOUND FOR ITEM Common Parchment WITH QUANTITY 1
+[2024-06-16 09:50:33] LINE 62: New ARQ record created successfully
+[2024-06-16 09:50:33] LINE 62: New ARQ record created successfully
+[2024-06-16 09:50:34] LINE 38: REAGENT FOUND FOR ITEM Ink of the Sea WITH QUANTITY 3
+[2024-06-16 09:50:36] LINE 38: REAGENT FOUND FOR ITEM Resilient Parchment WITH QUANTITY 1
+[2024-06-16 09:50:36] LINE 62: New ARQ record created successfully
+[2024-06-16 09:50:36] LINE 62: New ARQ record created successfully
+[2024-06-16 09:50:38] LINE 38: REAGENT FOUND FOR ITEM Midnight Ink WITH QUANTITY 3
+[2024-06-16 09:50:40] LINE 38: REAGENT FOUND FOR ITEM Light Parchment WITH QUANTITY 1
+[2024-06-16 09:50:40] LINE 62: New ARQ record created successfully
+[2024-06-16 09:50:40] LINE 62: New ARQ record created successfully
+[2024-06-16 09:50:43] LINE 38: REAGENT FOUND FOR ITEM Jadefire Ink WITH QUANTITY 3
+[2024-06-16 09:50:44] LINE 38: REAGENT FOUND FOR ITEM Common Parchment WITH QUANTITY 1
+[2024-06-16 09:50:44] LINE 62: New ARQ record created successfully
+[2024-06-16 09:50:44] LINE 62: New ARQ record created successfully
+[2024-06-16 09:50:46] LINE 38: REAGENT FOUND FOR ITEM Ink of the Sea WITH QUANTITY 3
+[2024-06-16 09:50:48] LINE 38: REAGENT FOUND FOR ITEM Resilient Parchment WITH QUANTITY 1
+[2024-06-16 09:50:48] LINE 62: New ARQ record created successfully
+[2024-06-16 09:50:48] LINE 62: New ARQ record created successfully
+[2024-06-16 09:50:49] LINE 38: REAGENT FOUND FOR ITEM Jadefire Ink WITH QUANTITY 3
+[2024-06-16 09:50:51] LINE 38: REAGENT FOUND FOR ITEM Common Parchment WITH QUANTITY 1
+[2024-06-16 09:50:51] LINE 62: New ARQ record created successfully
+[2024-06-16 09:50:51] LINE 62: New ARQ record created successfully
+[2024-06-16 09:50:53] LINE 38: REAGENT FOUND FOR ITEM Ink of the Sea WITH QUANTITY 3
+[2024-06-16 09:50:54] LINE 38: REAGENT FOUND FOR ITEM Resilient Parchment WITH QUANTITY 1
+[2024-06-16 09:50:54] LINE 62: New ARQ record created successfully
+[2024-06-16 09:50:54] LINE 62: New ARQ record created successfully
+[2024-06-16 09:50:56] LINE 38: REAGENT FOUND FOR ITEM Lion's Ink WITH QUANTITY 3
+[2024-06-16 09:50:57] LINE 38: REAGENT FOUND FOR ITEM Common Parchment WITH QUANTITY 1
+[2024-06-16 09:50:57] LINE 62: New ARQ record created successfully
+[2024-06-16 09:50:58] LINE 62: New ARQ record created successfully
+[2024-06-16 09:51:00] LINE 38: REAGENT FOUND FOR ITEM Ink of the Sea WITH QUANTITY 3
+[2024-06-16 09:51:01] LINE 38: REAGENT FOUND FOR ITEM Resilient Parchment WITH QUANTITY 1
+[2024-06-16 09:51:01] LINE 62: New ARQ record created successfully
+[2024-06-16 09:51:01] LINE 62: New ARQ record created successfully
+[2024-06-16 09:51:03] LINE 38: REAGENT FOUND FOR ITEM Midnight Ink WITH QUANTITY 3
+[2024-06-16 09:51:04] LINE 38: REAGENT FOUND FOR ITEM Light Parchment WITH QUANTITY 1
+[2024-06-16 09:51:04] LINE 62: New ARQ record created successfully
+[2024-06-16 09:51:04] LINE 62: New ARQ record created successfully
+[2024-06-16 09:51:06] LINE 38: REAGENT FOUND FOR ITEM Lion's Ink WITH QUANTITY 3
+[2024-06-16 09:51:07] LINE 38: REAGENT FOUND FOR ITEM Common Parchment WITH QUANTITY 1
+[2024-06-16 09:51:07] LINE 62: New ARQ record created successfully
+[2024-06-16 09:51:07] LINE 62: New ARQ record created successfully
+[2024-06-16 09:51:09] LINE 38: REAGENT FOUND FOR ITEM Ink of the Sea WITH QUANTITY 3
+[2024-06-16 09:51:11] LINE 38: REAGENT FOUND FOR ITEM Resilient Parchment WITH QUANTITY 1
+[2024-06-16 09:51:11] LINE 62: New ARQ record created successfully
+[2024-06-16 09:51:11] LINE 62: New ARQ record created successfully
+[2024-06-16 09:53:51] LINE 42: Item not found
+[2024-06-16 10:23:14] LINE 42: Item not found
+[2024-06-16 10:23:17] LINE 38: REAGENT FOUND FOR ITEM Ink of the Sea WITH QUANTITY 3
+[2024-06-16 10:23:19] LINE 38: REAGENT FOUND FOR ITEM Resilient Parchment WITH QUANTITY 1
+[2024-06-16 10:23:19] LINE 62: New ARQ record created successfully
+[2024-06-16 10:23:19] LINE 62: New ARQ record created successfully

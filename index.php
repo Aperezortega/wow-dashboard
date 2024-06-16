@@ -48,7 +48,29 @@
     <!-- MAIN -->
     <div class="container-fluid content">
         <div class="row">
-            <div class="col-md-2 col-sm-12 aside bg-dark"></div>
+            <div class="col-md-2 col-sm-12 aside" style="padding-top: 42px">
+            <table class="table caption-top items-table table-striped table-hover text-center mt-4 py-1" id="top10">
+            <caption>Top 10 glyphs</caption>
+                        <thead class="">
+                            <tr>
+                                <th scope="col" class="w-60">Item</th>
+                                <th scope="col" class="w-40">Ink</th>
+                            </tr>
+                        </thead>
+                    <tbody></tbody>
+                </table>
+                <table class="table  caption-top items-table table-striped table-hover text-center mt-4" id="cheapestHerbs">
+                <caption>Cheapest herb for Inks</caption>
+                        <thead class="">
+                            <tr>
+                                <th scope="col" class="w-60">Ink</th>
+                                <th scope="col" class="w-40">Herb</th>
+                            </tr>
+                        </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+              
             <div class="col-md-10 col-sm-12">
                 <div class="row mt-2">
                     <div class="col-md-2 col-sm-12">

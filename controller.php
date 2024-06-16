@@ -28,7 +28,23 @@ function getItems($conn, $date = null, $type = null) {
             }
         }
         return $items;
-    } else if ($type == -1) {
+    }else if($date == null){
+        $sql = "SELECT id_item, name FROM items where type = $type";
+        $result = $conn->query($sql);
+        $items = array();
+        $items = [];
+        if ($result->num_rows > 0) {
+            while($row = $result->fetch_assoc()) {
+                $item = array(
+                    'id_item' => $row['id_item'],
+                    'name' => $row['name'],
+                );
+                $items[] = $item;
+            }
+        }
+        return $items;
+    }
+     else if ($type == -1) {
         $sql = "SELECT s.id_item, i.name, s.price, s.available FROM scrap s INNER JOIN items i ON s.id_item = i.id_item WHERE DATE(s.date) = '$date'";
     } else {
         $sql = "SELECT s.id_item, i.name, s.price, s.available FROM scrap s INNER JOIN items i ON s.id_item = i.id_item WHERE DATE(s.date) = '$date' AND i.type = $type";
@@ -170,25 +186,21 @@ function getItemData($conn, $idItem){
 
 }
 function getReagents($conn, $idItem){
-    $sql = "SELECT a.id_reagent, a.quantity, i.name, s.price 
+    $sql = "SELECT a.id_reagent, a.quantity, i.name, 
+            (SELECT price FROM scrap WHERE id_item = a.id_reagent ORDER BY date DESC LIMIT 1) AS price
             FROM architecture a 
             INNER JOIN items i ON a.id_reagent = i.id_item
-            INNER JOIN (
-                SELECT id_item, price
-                FROM scrap
-                WHERE id_item = ?
-                ORDER BY date DESC
-                LIMIT 1
-            ) s ON a.id_item = s.id_item
             WHERE a.id_item = ?";
 
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ii", $idItem, $idItem);
+    $stmt->bind_param("i", $idItem);
     $stmt->execute();   
     $result = $stmt->get_result();
     $reagents = [];
     while ($row = $result->fetch_assoc()) {
-        $row['text'] = $row['name'] . ' - ' . $row['quantity'] . ' - ' . $row['price'];
+        $price = $row['price'] ? $row['price'] : 0;
+        $price = number_format($price / 10000, 2, ',', '');
+        $row['text'] = $row['name'] . ' - ' . $row['quantity'] . ' - ' . $price;
         $row['subreagents'] = getReagents($conn, $row['id_reagent']);
         $reagents[] = $row;
     }
@@ -210,6 +222,62 @@ function getPriceHistory($conn, $idItem){
     }
     return $priceHistory;
 }
+function getInksForGlyphs($conn, $amount = 10){
+    $sql = " SELECT i.name, i.id_item
+        FROM items i
+        JOIN scrap s ON i.id_item = s.id_item
+        WHERE DATE(s.date) = CURDATE() AND i.`type` = 1
+        ORDER BY s.price DESC
+        LIMIT $amount";  
+    $result = $conn->query($sql);
+    $items = [];
+    while ($row = $result->fetch_assoc()) {
+        $sql = "SELECT name FROM items WHERE id_item IN (SELECT id_reagent FROM architecture WHERE id_item = ".$row['id_item'] .") AND TYPE = 2";
+        $resultInk = $conn->query($sql);
+        $ink = $resultInk->fetch_assoc()['name'];
+        $items[] = array(
+            'Glyph' => $row['name'],
+            'Ink' => $ink
+        );
+    }
+    return $items;
+}
+function getHerbsForInk($conn, $idInk, $boolean = true){
+    if($boolean){
+        $sql = "SELECT i.name FROM architecture a INNER JOIN items i ON
+        a.id_reagent = i.id_item INNER JOIN scrap s ON a.id_reagent = s.id_item WHERE
+        a.id_item = 
+            (
+            SELECT id_reagent FROM architecture WHERE id_item = ?
+            )
+            AND date(DATE) = CURDATE() ORDER BY s.price LIMIT 1";
+    } else {
+        $sql ="SELECT i.name FROM architecture a INNER JOIN items i ON a.id_reagent = i.id_item WHERE a.id_item = (
+            SELECT id_reagent FROM architecture WHERE id_item = ?
+            )";
+    }
+
+
+    $stmt = $conn->prepare($sql);
+    if (!$stmt) {
+        // Manejar error aquí, por ejemplo:
+        return "Error preparing statement: " . $conn->error;
+    }
+    $stmt->bind_param("i", $idInk);
+    if (!$stmt->execute()) {
+        return "Error executing query: " . $stmt->error;
+    }
+
+    $result = $stmt->get_result();
+    $herbs = [];
+    while ($row = $result->fetch_assoc()) {
+        $herbs[] = $row['name'];
+    }
+    $stmt->close();
+
+    return $herbs;
+}
+
 $action = $_GET['action'];
 switch ($action) {
     case 'getTypes':
@@ -238,6 +306,17 @@ switch ($action) {
         $idItem = $_GET['idItem'];
         $reagents = getReagents($conn, $idItem);
         echo json_encode($reagents);
+        break;
+    case 'getAsideData':
+        $glyphs = getInksForGlyphs($conn);
+        $inks = getItems($conn, null, 2);
+        foreach ($inks as $key => $ink) {
+            $herbs = getHerbsForInk($conn, $ink['id_item']);
+            $herb = $herbs[0];
+            $inks[$key]['herbs'] = $herb;
+        }
+        $response = array('glyphs' => $glyphs, 'inks' => $inks);
+        echo json_encode($response);
         break;
     default:
         echo 'default';
