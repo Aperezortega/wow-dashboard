@@ -1,9 +1,28 @@
 html, body {
     height: 100%;
-}
-body {
+    margin: 0;
     display: flex;
     flex-direction: column;
+}
+
+.index-body {
+    display: flex;
+    flex-direction: column;
+    background-color: #2D455A
+
+}
+#itemsTable_paginate {
+    margin-top: 10px;
+    background-color: #F8F9FA;
+    padding: 5px;
+    border-radius: 1px;
+    border: solid 2px #F8F9FA;
+}
+label, caption,  .paginate-button, .dataTables_info{
+    color: white !important;
+}
+select, .index-btn, input, table, footer {
+    background-color: #F8F9FA !important;
 }
 .content {
     flex: 1;
@@ -14,10 +33,19 @@ body {
 .navbar-row {
    height: 15vh;
 }
-
-.table-menu, .items-table {
-    border: 1px solid #dee2e6 !important;
+#prev-day, #next-day {
+    margin:  0 5px;
+    height: 40px;
+    border-radius: 5px;
 }
+#date-picker, #month-picker {
+    border-radius: 5px;
+    height: 40px;
+}
+.table {
+    border-radius: 5px;
+}
+
 .table-menu th, .table-menu td, .items-table th, .items-table td {
     border: none !important;
 }
@@ -70,6 +98,12 @@ body {
 #reagentTree{
     font-size: 1rem;
 }
-#top10 #cheapestHerbs{
+#top10 #cheapestHerbs, #generalDataTable, #dangerZone{
     font-size: 0.8rem;
-}       
+}
+#cheapestHerbs{
+ margin-bottom: 94px;
+}
+#ui-igtrialwatermark{
+    display: none !important;
+}

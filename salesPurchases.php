@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inscription Dashboard</title>
+    <title>WowScrap</title>
     <!-- BOOTSTRAP -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
+    
 </head>
 <body class="index-body">
     <?php include_once('navbar.php')?>
@@ -18,22 +19,41 @@
     <div class="container-fluid content">
         <div class="row">
             <div class="col-md-2 col-sm-12 aside d-flex flex-column justify-content-flex-end" style="padding-top: 42px">
-            <table class="table caption-top items-table table-striped table-hover text-center mt-4 py-1" id="top10">
-            <caption>Top 10 glyphs</caption>
+            <caption>General Data</caption>
+            <table class="table caption-top items-table table-striped table-hover  mt-2 py-1" id="generalDataTable">
+                <tbody>
+                    <tr>
+                    <th scope="row">Total spent on purchases:</th>
+                    <td>Value</td>
+                    </tr>
+                    <tr>
+                    <th scope="row">Total earned from sales:</th>
+                    <td>Value</td>
+                    </tr>
+                    <tr>
+                    <th scope="row">Best-selling item:</th>
+                    <td>Product</td>
+                    </tr>
+                    <tr>
+                    <th scope="row">Most purchased item:</th>
+                    <td>Product</td>
+                    </tr>
+                    <tr>
+                    <th scope="row">Most bought above average:</th>
+                    <td>Product</td>
+                    </tr>
+                    <tr>
+                    <th scope="row">Most sold below average</th>
+                    <td>Product</td>
+                    </tr>
+                </tbody>
+            </table>
+                <table class="table  caption-top items-table table-striped table-hover text-center mt-auto" id="dangerZone">
+                <caption>Danger Zone</caption>
                         <thead class="">
                             <tr>
-                                <th scope="col" class="w-60">Item</th>
-                                <th scope="col" class="w-40">Ink</th>
-                            </tr>
-                        </thead>
-                    <tbody></tbody>
-                </table>
-                <table class="table  caption-top items-table table-striped table-hover text-center mt-auto" id="cheapestHerbs">
-                <caption>Cheapest herb for Inks</caption>
-                        <thead class="">
-                            <tr>
-                                <th scope="col" class="w-60">Ink</th>
-                                <th scope="col" class="w-40">Herb</th>
+                                <th scope="col" class="w-60">Sold below Avg</th>
+                                <th scope="col" class="w-40">Bought Above Avg</th>
                             </tr>
                         </thead>
                     <tbody></tbody>
@@ -44,15 +64,19 @@
                 <div class="row mt-2">
                     <div class="col-md-2 col-sm-12">
                         <div class="d-flex align-items-center mb-2 mb-lg-0">
-                            <label for="typeSelector" class="me-2">Type:</label>
-                            <select id="typeSelector" class="form-select"></select>
+                        <label class="checkbox-inline">
+                        <input type="checkbox" checked data-toggle="toggle">Sale
+                        </label>
+                        <label class="checkbox-inline">
+                        <input type="checkbox" data-toggle="toggle">Purchase
+                        </label>
                         </div>
                     </div>
                     <div class="col-md-8 col-sm-12 d-flex justify-content-center">
                         <div class="input-group date-picker">
-                            <button class=" index-btn btn btn-outline-secondary" type="button" id="prev-day">←</button>
-                            <input type="date" class="form-control text-center" id="date-picker">
-                            <button class=" index-btn btn btn-outline-secondary" type="button" id="next-day">→</button>
+                            <button class="index-btn btn btn-outline-secondary" type="button" id="prev-day">←</button>
+                            <input type="month" class="form-control text-center" id="month-picker">
+                            <button class="index-btn btn btn-outline-secondary" type="button" id="next-day">→</button>
                         </div>
                     </div>
                 </div>
@@ -63,11 +87,11 @@
                                 <tr>
                                     <th scope="col" class="w-5">#</th>
                                     <th scope="col" class="w-25">Item</th>
+                                    <th scope="col" class="w-10">Amount</th>
+                                    <th scope="col" class="w-15">Date</th>
                                     <th scope="col" class="w-15">Average Price</th>
                                     <th scope="col" class="w-15">Price</th>
-                                    <th scope="col" class="w-15">Difference with Yesterday</th>
-                                    <th scope="col" class="w-15">Profit</th>
-                                    <th scope="col" class="w-10">Sold</th>
+                                    <th scope="col" class="w-15">% with Avg</th>
                                 </tr>
                             </thead>
                             <tbody></tbody>
@@ -77,8 +101,8 @@
             </div>
         </div>
     </div>
-    
+ 
 <?php include_once('footer.php')?>
-<script src="assets/js/index.js"></script>
+<script src="assets/js/salesPurchases.js"></script>
 </body>
 </html>
