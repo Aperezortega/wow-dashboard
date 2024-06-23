@@ -1,6 +1,4 @@
 <?php
-require_once 'db.php';
-
 function getTypes($conn) {
     $sql = "SELECT * FROM types";
     $result = $conn->query($sql);
@@ -309,11 +307,7 @@ function getTransactions($conn, $type, $month){
     $transactions = [];
     $result = $stmt->get_result();
     while ($row = $result->fetch_assoc()) {
-        $quantity = $row['quantity'];
-        $amount = abs($row['amount']);
-        if($quantity != 1){
-            $amount /= $quantity;
-        }
+       
         if ($row['type'] === 'buyer') {
     
             $row['amount'] = -$row['amount']; 
@@ -324,7 +318,7 @@ function getTransactions($conn, $type, $month){
         $row['averagePrice'] = getAveragePrice($conn, $row['id_item']);
         $row['averagePrice'] = floor($row['averagePrice']);
         if (isset($row['amount']) && isset($row['averagePrice']) && $row['averagePrice'] != 0) {
-            $row['%withAverage'] = (($amount - $row['averagePrice']) / $row['averagePrice']) * 100;
+            $row['%withAverage'] = ((abs($row['amount']) - $row['averagePrice']) / $row['averagePrice']) * 100;
             $row['%withAverage'] = round($row['%withAverage'], 2);
         } else {
             $row['%withAverage'] = 0;
@@ -333,55 +327,28 @@ function getTransactions($conn, $type, $month){
     }
     return $transactions;
 }
-$action = $_GET['action'];
-switch ($action) {
-    case 'getTypes':
-        $types = getTypes($conn);
-        echo json_encode($types);
-        break;
-    case 'getItems':
-        $date = isset($_GET['date']) ? $_GET['date'] : null;
-        $type = isset($_GET['type']) ? $_GET['type'] : null;
-        $items = getItems($conn, $date, $type);
-        echo json_encode($items);
-        break;
-    case 'getItemData':
-        $idItem = $_GET['idItem'];
-        $data = getItemData($conn, $idItem);
-        echo json_encode($data);
-        break;
-    case 'getPriceHistory':
-        $idItem = $_GET['idItem'];
-        $name = getName($conn, $idItem);
-        $data = getPriceHistory($conn, $idItem);
-        $response = array('name' => $name, 'data' => $data);
-        echo json_encode($response);
-        break;
-    case 'getReagents':
-        $idItem = $_GET['idItem'];
-        $reagents = getReagents($conn, $idItem);
-        echo json_encode($reagents);
-        break;
-    case 'getTransactions':
-            $type = $_GET['type'];
-            $month = $_GET['month'];
-            $transactions = getTransactions($conn, $type, $month);
-            echo json_encode($transactions);
-            break;
-    case 'getAsideData':
-        $glyphs = getInksForGlyphs($conn);
-        $inks = getItems($conn, null, 2);
-        foreach ($inks as $key => $ink) {
-            $herb = getHerbsForInk($conn, $ink['id_item']);
-            //$herbs = $herb;
-            $inks[$key]['herbs'] = $herb;
-        }
-        $response = array('glyphs' => $glyphs, 'inks' => $inks);
-        echo json_encode($response);
-        break;
-    default:
-        echo 'default';
-        break;
-}
 
+include 'db.php';
+$sql = "select * from scrap where id_item = 545 and date(date) = '2024-06-20'";
+$result = $conn->query($sql);
+$data = array();
+foreach ($result as $row) {
+    $data[] = $row;
+}
+echo '<pre>';
+print_r($data);
+echo '<br>';
+$itemData = getItemData($conn, 545);
+echo '<pre>';
+print_r($itemData);
+echo '<br>';
+$sql = "SELECT * FROM transactions WHERE id_item = 545";
+$result = $conn->query($sql);
+$data = array();
+foreach ($result as $row) {
+    $data[] = $row;
+}
+echo '<pre>';
+print_r($data);
+echo '<br>';
 ?>

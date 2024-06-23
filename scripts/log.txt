@@ -2095,3 +2095,39 @@
 [2024-06-19 07:00:32] LINE 38: REAGENT FOUND FOR ITEM Light Parchment WITH QUANTITY 1
 [2024-06-19 07:00:32] LINE 62: New ARQ record created successfully
 [2024-06-19 07:00:32] LINE 62: New ARQ record created successfully
+[2024-06-20 11:04:46] LINE 38: REAGENT FOUND FOR ITEM Ink of the Sea WITH QUANTITY 3
+[2024-06-20 11:04:49] LINE 38: REAGENT FOUND FOR ITEM Resilient Parchment WITH QUANTITY 1
+[2024-06-20 11:04:49] LINE 62: New ARQ record created successfully
+[2024-06-20 11:04:49] LINE 62: New ARQ record created successfully
+[2024-06-20 16:30:55] LINE 38: REAGENT FOUND FOR ITEM Ink of the Sea WITH QUANTITY 3
+[2024-06-20 16:31:00] LINE 38: REAGENT FOUND FOR ITEM Resilient Parchment WITH QUANTITY 1
+[2024-06-20 16:31:00] LINE 62: New ARQ record created successfully
+[2024-06-20 16:31:00] LINE 62: New ARQ record created successfully
+[2024-06-20 16:57:22] LINE 38: REAGENT FOUND FOR ITEM Ink of the Sea WITH QUANTITY 3
+[2024-06-20 16:57:24] LINE 38: REAGENT FOUND FOR ITEM Resilient Parchment WITH QUANTITY 1
+[2024-06-20 16:57:24] LINE 62: New ARQ record created successfully
+[2024-06-20 16:57:24] LINE 62: New ARQ record created successfully
+[2024-06-20 16:57:29] LINE 38: REAGENT FOUND FOR ITEM Ethereal Ink WITH QUANTITY 3
+[2024-06-20 16:57:31] LINE 38: REAGENT FOUND FOR ITEM Resilient Parchment WITH QUANTITY 1
+[2024-06-20 16:57:31] LINE 62: New ARQ record created successfully
+[2024-06-20 16:57:31] LINE 62: New ARQ record created successfully
+[2024-06-21 09:45:00] LINE 38: REAGENT FOUND FOR ITEM Ink of the Sea WITH QUANTITY 3
+[2024-06-21 09:45:03] LINE 38: REAGENT FOUND FOR ITEM Resilient Parchment WITH QUANTITY 1
+[2024-06-21 09:45:03] LINE 62: New ARQ record created successfully
+[2024-06-21 09:45:03] LINE 62: New ARQ record created successfully
+[2024-06-21 09:45:05] LINE 38: REAGENT FOUND FOR ITEM Ink of the Sea WITH QUANTITY 3
+[2024-06-21 09:45:07] LINE 38: REAGENT FOUND FOR ITEM Resilient Parchment WITH QUANTITY 1
+[2024-06-21 09:45:07] LINE 62: New ARQ record created successfully
+[2024-06-21 09:45:07] LINE 62: New ARQ record created successfully
+[2024-06-21 09:45:10] LINE 38: REAGENT FOUND FOR ITEM Ethereal Ink WITH QUANTITY 3
+[2024-06-21 09:45:12] LINE 38: REAGENT FOUND FOR ITEM Heavy Parchment WITH QUANTITY 1
+[2024-06-21 09:45:12] LINE 62: New ARQ record created successfully
+[2024-06-21 09:45:12] LINE 62: New ARQ record created successfully
+[2024-06-22 09:58:01] LINE 38: REAGENT FOUND FOR ITEM Ethereal Ink WITH QUANTITY 3
+[2024-06-22 09:58:03] LINE 38: REAGENT FOUND FOR ITEM Heavy Parchment WITH QUANTITY 1
+[2024-06-22 09:58:03] LINE 62: New ARQ record created successfully
+[2024-06-22 09:58:03] LINE 62: New ARQ record created successfully
+[2024-06-22 09:58:07] LINE 38: REAGENT FOUND FOR ITEM Ink of the Sea WITH QUANTITY 3
+[2024-06-22 09:58:11] LINE 38: REAGENT FOUND FOR ITEM Resilient Parchment WITH QUANTITY 1
+[2024-06-22 09:58:11] LINE 62: New ARQ record created successfully
+[2024-06-22 09:58:11] LINE 62: New ARQ record created successfully

@@ -69,11 +69,11 @@ select, .index-btn, input, table, footer {
     font-size: 70%; 
 }
 
-.negative {
+.negative, .red {
     color: red !important;
 }
 
-.positive {
+.positive, .green {
     color: green !important;
 }
 #itemsTable tbody tr {

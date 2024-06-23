@@ -77,14 +77,12 @@ $(document).ready(function() {
         type: 'GET',
         data: { action: 'getItemData', idItem: idItem },
         success: function(data) {
+            console.log(data);
             var parsedData = JSON.parse(data);
 
             var formatPrice = function(price) {
-                var roundedPrice = Math.round(price).toString();
-                var gold = roundedPrice.slice(0, -4);
-                var silver = roundedPrice.slice(-4, -2);
-                var copper = roundedPrice.slice(-2);
-                return `<span class="gold">${gold}</span><span class="silver">${silver}</span><span class="copper">${copper}</span>`;
+                var formattedPrice = (price / 10000).toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                return formattedPrice;
             };
 
             $('#dataDisplay').html(`

@@ -65,10 +65,10 @@
                     <div class="col-md-2 col-sm-12">
                         <div class="d-flex align-items-center mb-2 mb-lg-0">
                         <label class="checkbox-inline">
-                        <input type="checkbox" checked data-toggle="toggle">Sale
+                        <input type="checkbox" checked data-toggle="toggle" id="saleCheckbox">Sale
                         </label>
                         <label class="checkbox-inline">
-                        <input type="checkbox" data-toggle="toggle">Purchase
+                        <input type="checkbox" data-toggle="toggle" id="purchaseCheckbox">Purchase
                         </label>
                         </div>
                     </div>
@@ -82,15 +82,15 @@
                 </div>
                 <div class="row">
                     <div class="col-12 table-container mb-4">
-                        <table class="table items-table table-striped table-hover text-center mt-4" id="itemsTable">
+                        <table class="table items-table table-striped table-hover text-center mt-4" id="SaleItemsTable">
                             <thead class="">
                                 <tr>
                                     <th scope="col" class="w-5">#</th>
                                     <th scope="col" class="w-25">Item</th>
-                                    <th scope="col" class="w-10">Amount</th>
+                                    <th scope="col" class="w-10">Quantity</th>
                                     <th scope="col" class="w-15">Date</th>
                                     <th scope="col" class="w-15">Average Price</th>
-                                    <th scope="col" class="w-15">Price</th>
+                                    <th scope="col" class="w-15">Sale/Buy Price</th>
                                     <th scope="col" class="w-15">% with Avg</th>
                                 </tr>
                             </thead>

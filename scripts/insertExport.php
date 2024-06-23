@@ -63,9 +63,10 @@ foreach ($data as $row) {
         }
     }
     echo '############################################# <br>';
-    if ($includeWowhead) {
-        echo 'Include Wowhead <br>';
-        include('wowhead.php');
-    }
+
+}
+if ($includeWowhead == true) {
+    echo 'Include Wowhead <br>';
+   include('wowhead.php');
 }
 ?>
