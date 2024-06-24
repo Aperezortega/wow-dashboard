@@ -196,4 +196,5 @@ $(document).ready(function() {
             loadInitialChartData(idItem);
         }
     });
+   
 });

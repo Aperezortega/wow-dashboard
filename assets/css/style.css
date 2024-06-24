@@ -11,12 +11,18 @@ html, body {
     background-color: #2D455A
 
 }
-#itemsTable_paginate {
+#itemsTable_paginate, #SaleItemsTable_paginate {
     margin-top: 10px;
     background-color: #F8F9FA;
     padding: 5px;
     border-radius: 1px;
     border: solid 2px #F8F9FA;
+}
+#salesCaption {
+    color: white;
+    font-size: 1.5rem;
+    margin-top: 10px;
+
 }
 label, caption,  .paginate-button, .dataTables_info{
     color: white !important;
@@ -79,6 +85,9 @@ select, .index-btn, input, table, footer {
 #itemsTable tbody tr {
     cursor: pointer;
 }
+#SaleItemsTable tbody tr {
+    cursor: pointer;
+}
 .date-picker {
     width: 50%;
 }
@@ -104,6 +113,7 @@ select, .index-btn, input, table, footer {
 #cheapestHerbs{
  margin-bottom: 94px;
 }
-#ui-igtrialwatermark{
-    display: none !important;
+#__ig_wm__{
+    position: absolute;
+    transform: translateY(-75px);
 }

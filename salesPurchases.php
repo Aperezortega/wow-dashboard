@@ -18,46 +18,26 @@
     <!-- MAIN -->
     <div class="container-fluid content">
         <div class="row">
-            <div class="col-md-2 col-sm-12 aside d-flex flex-column justify-content-flex-end" style="padding-top: 42px">
-            <caption>General Data</caption>
+            <div class="col-md-2 col-sm-12 aside d-flex flex-column justify-content-start" style="padding-top: 54px">
             <table class="table caption-top items-table table-striped table-hover  mt-2 py-1" id="generalDataTable">
+            <caption>Sales Data</caption>
                 <tbody>
                     <tr>
                     <th scope="row">Total spent on purchases:</th>
-                    <td>Value</td>
                     </tr>
                     <tr>
                     <th scope="row">Total earned from sales:</th>
-                    <td>Value</td>
                     </tr>
                     <tr>
+                    <th scope="row">Difference:</th>
+                    </tr>
                     <th scope="row">Best-selling item:</th>
-                    <td>Product</td>
                     </tr>
                     <tr>
                     <th scope="row">Most purchased item:</th>
-                    <td>Product</td>
-                    </tr>
-                    <tr>
-                    <th scope="row">Most bought above average:</th>
-                    <td>Product</td>
-                    </tr>
-                    <tr>
-                    <th scope="row">Most sold below average</th>
-                    <td>Product</td>
                     </tr>
                 </tbody>
             </table>
-                <table class="table  caption-top items-table table-striped table-hover text-center mt-auto" id="dangerZone">
-                <caption>Danger Zone</caption>
-                        <thead class="">
-                            <tr>
-                                <th scope="col" class="w-60">Sold below Avg</th>
-                                <th scope="col" class="w-40">Bought Above Avg</th>
-                            </tr>
-                        </thead>
-                    <tbody></tbody>
-                </table>
             </div>
               
             <div class="col-md-10 col-sm-12">

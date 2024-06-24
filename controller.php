@@ -287,12 +287,12 @@ function getTransactions($conn, $type, $month){
         case '1':
             $sql = "SELECT i.name, t.quantity, t.date, t.amount, t.id_item, t.type FROM transactions t INNER JOIN
              items i ON t.id_item = i.id_item 
-             WHERE  type = 'seller' AND  MONTH(t.date) = ? AND YEAR(t.date) = YEAR(CURRENT_DATE())";
+             WHERE  t.type = 'seller' AND  MONTH(t.date) = ? AND YEAR(t.date) = YEAR(CURRENT_DATE())";
             break;
         case '2':
             $sql = "SELECT i.name, t.quantity, t.date, t.amount, t.id_item, t.type FROM transactions t INNER JOIN
              items i ON t.id_item = i.id_item 
-             WHERE  type = 'buyer' AND MONTH(t.date) = ? AND YEAR(t.date) = YEAR(CURRENT_DATE())";
+             WHERE  t.type = 'buyer' AND MONTH(t.date) = ? AND YEAR(t.date) = YEAR(CURRENT_DATE())";
             break;
         default:
             break;
@@ -332,6 +332,45 @@ function getTransactions($conn, $type, $month){
         $transactions[] = $row;
     }
     return $transactions;
+}
+function getSalesAside($conn){
+    $sql = "SELECT SUM(amount) as total FROM transactions WHERE type = 'seller'";
+    $result = $conn->query($sql);
+    $totalEarned = $result->fetch_assoc()['total'];
+    $totalEarned = round($totalEarned / 10000, 2);
+    $sql = "SELECT SUM(amount) as total FROM transactions WHERE type = 'buyer'";
+    $result = $conn->query($sql);
+    $totalSpend = $result->fetch_assoc()['total'];
+    $totalSpend = round($totalSpend / 10000, 2);
+    $sql = "SELECT i.name 
+        FROM transactions t
+        JOIN items i ON t.id_item = i.id_item
+        WHERE t.type = 'seller'
+        GROUP BY t.id_item
+        ORDER BY COUNT(t.id_item) DESC
+        LIMIT 1";
+    $result = $conn->query($sql);
+    $row = $result->fetch_assoc();
+    $bestSellingItem = $row['name'];
+    $sql = "SELECT i.name
+        FROM transactions t
+        JOIN items i ON t.id_item = i.id_item
+        WHERE t.type = 'buyer'
+        GROUP BY t.id_item
+        ORDER BY COUNT(t.id_item) DESC
+        LIMIT 1";
+    $result = $conn->query($sql);
+    $row = $result->fetch_assoc();
+    $mostPurchasedItem = $row['name'];
+    
+    $data = [
+        'totalSpent' => $totalSpend, 
+        'totalEarned' => $totalEarned, 
+        'difference' => $totalEarned - $totalSpend, 
+        'bestSellingItem' => $bestSellingItem,
+        'mostPurchasedItem' =>$mostPurchasedItem
+    ];
+    return $data;
 }
 $action = $_GET['action'];
 switch ($action) {
@@ -378,6 +417,10 @@ switch ($action) {
         }
         $response = array('glyphs' => $glyphs, 'inks' => $inks);
         echo json_encode($response);
+        break;
+    case 'getSalesAside':
+        $data = getSalesAside($conn);
+        echo json_encode($data);
         break;
     default:
         echo 'default';
