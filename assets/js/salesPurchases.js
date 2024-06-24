@@ -1,15 +1,35 @@
 $(document).ready(function () {
-    // Inicializa DataTable correctamente con 25 elementos por defecto
-    let dataTable = $('#SaleItemsTable').DataTable({
-        "pageLength": 25
-    });
 
-    // Función para obtener y mostrar las transacciones
+    const currentDate = new Date();
+    const currentMonth = ("0" + (currentDate.getMonth() + 1)).slice(-2);
+    const currentYear = currentDate.getFullYear();
+    const dataTable = initializeDataTable();
+
+    // Setup event handlers for month-picker and checkboxes
+    $('#month-picker').change(updateTransactions);
+    $('#saleCheckbox, #purchaseCheckbox').change(updateTransactions);
+    $('#prev-day').click(handlePrevMonth);
+    $('#next-day').click(handleNextMonth);
+    $('#SaleItemsTable tbody').on('dblclick', 'tr', handleRowDoubleClick);
+    $('#month-picker').val(`${currentYear}-${currentMonth}`);
+    updateTransactions();
+    fetchSalesAside();
+
+    // Initialize DataTable with 25 items per page
+    function initializeDataTable() {
+        return $('#SaleItemsTable').DataTable({
+            "pageLength": 25
+        });
+    }
+    
+    /**
+    *  Functions
+    **/
+
+    // Fetch and display transactions based on type and month
     function getTransactions(type, month) {
-        console.log('Fetching transactions...');
-        console.log('Type:', type);
-        console.log('Month:', month);
-        const monthOnly = month.split('-')[1]; // Esto quitará el año y dejará solo el mes
+        console.log('Fetching transactions...', 'Type:', type, 'Month:', month);
+        const monthOnly = month.split('-')[1];
 
         $.ajax({
             url: './controller.php',
@@ -20,175 +40,183 @@ $(document).ready(function () {
                 month: monthOnly
             },
             dataType: 'json',
-            success: function (data) {
-                console.log('Transactions:', data);
-
-                // Limpia el cuerpo de la tabla
-                dataTable.clear();
-
-                // Inserta los datos recibidos en la tabla
-                data.forEach((transaction, index) => {
-                    let amount = transaction.amount ? transaction.amount / 10000 : null;
-                    let averagePrice = transaction.averagePrice ? transaction.averagePrice / 10000 : null;
-                
-                    let className = '';
-                    if (amount !== null && averagePrice !== null) {
-                        if (amount > 0) { // Venta
-                            if (amount > averagePrice) {
-                                className = 'green'; // Vendido por encima de la media
-                            } else {
-                                className = 'red'; // Vendido por debajo de la media
-                            }
-                        } else { // Compra
-                            if (amount < averagePrice) {
-                                className = 'green'; // Comprado por debajo de la media
-                            } else {
-                                className = 'red'; // Comprado por encima de la media
-                            }
-                        }
-                    }
-                
-                    let rowNode = dataTable.row.add([
-                        index + 1,
-                        transaction.name,
-                        transaction.quantity,
-                        new Date(transaction.date).toLocaleDateString('es-ES', {
-                            day: '2-digit',
-                            month: '2-digit',
-                            year: 'numeric'
-                        }),
-                        averagePrice !== null ? averagePrice.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : "--.--",
-                        amount !== null ? amount.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : "--.--",
-                        transaction['%withAverage']
-                    ]).draw().node();
-                
-                    $(rowNode).attr('value', transaction.id_item); // Añadir el atributo value
-                    $(rowNode).find('td').eq(6).addClass(className);
-                });
-
-                dataTable.draw();
-            },
+            success: handleTransactionsSuccess,
             error: function (error) {
                 console.error('Error fetching transactions:', error);
             }
         });
     }
 
-    // Función para obtener el mes seleccionado
+    // Handle successful transactions data fetch
+    function handleTransactionsSuccess(data) {
+        console.log('Transactions:', data);
+        dataTable.clear();
+
+        data.forEach((transaction, index) => {
+            const amount = transaction.amount ? transaction.amount / 10000 : null;
+            const averagePrice = transaction.averagePrice ? transaction.averagePrice / 10000 : null;
+            const className = getClassName(amount, averagePrice);
+
+            const rowNode = dataTable.row.add([
+                index + 1,
+                transaction.name,
+                transaction.quantity,
+                formatDate(transaction.date),
+                formatNumber(averagePrice),
+                formatNumber(amount),
+                transaction['%withAverage']
+            ]).draw().node();
+
+            $(rowNode).attr('value', transaction.id_item);
+            $(rowNode).find('td').eq(6).addClass(className);
+        });
+
+        dataTable.draw();
+    }
+
+    // Get class name based on amount and average price
+    function getClassName(amount, averagePrice) {
+        if (amount !== null && averagePrice !== null) {
+            if (amount > 0) {
+                return amount > averagePrice ? 'green' : 'red';
+            } else {
+                return amount < averagePrice ? 'green' : 'red';
+            }
+        }
+        return '';
+    }
+
+    // Format date to 'dd-mm-yyyy'
+    function formatDate(date) {
+        return new Date(date).toLocaleDateString('es-ES', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric'
+        });
+    }
+
+    // Format number with 2 decimal places
+    function formatNumber(number) {
+        return number !== null ? number.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : "--.--";
+    }
+
+    // Get selected month from month-picker
     function getSelectedMonth() {
         return $('#month-picker').val();
     }
 
-    // Función para manejar cambios en el mes o los checkboxes
+    // Update transactions based on selected checkboxes and month
     function updateTransactions() {
-        const isSaleChecked = $('#saleCheckbox').is(':checked');
-        const isPurchaseChecked = $('#purchaseCheckbox').is(':checked');
-        let type;
+        const type = getSelectedType();
+        const month = getSelectedMonth();
 
-        if (isSaleChecked && isPurchaseChecked) {
-            type = 0; // Ambos seleccionados
-        } else if (isSaleChecked) {
-            type = 1; // Solo sale seleccionado
-        } else if (isPurchaseChecked) {
-            type = 2; // Solo purchase seleccionado
-        } else {
-            type = null; // Ninguno seleccionado, manejar según sea necesario
-        }
-
-        const month = getSelectedMonth(); // Asegúrate de que esta función devuelve el mes seleccionado correctamente
         if (type !== null) {
-            getTransactions(type, month); // Llama a tu función con los parámetros adecuados
+            getTransactions(type, month);
         }
     }
 
-    // Establecer el mes actual como el valor predeterminado del selector de mes
-    const currentDate = new Date();
-    const currentMonth = ("0" + (currentDate.getMonth() + 1)).slice(-2); // Asegura el formato MM
-    const currentYear = currentDate.getFullYear();
-    $('#month-picker').val(`${currentYear}-${currentMonth}`);
+    // Get selected type based on checkboxes
+    function getSelectedType() {
+        const isSaleChecked = $('#saleCheckbox').is(':checked');
+        const isPurchaseChecked = $('#purchaseCheckbox').is(':checked');
 
-    // Eventos para cargar las transacciones basadas en el mes y el tipo seleccionado
-    $('#month-picker').change(updateTransactions);
-    $('#saleCheckbox, #purchaseCheckbox').change(updateTransactions);
+        if (isSaleChecked && isPurchaseChecked) {
+            return 0; // Both selected
+        } else if (isSaleChecked) {
+            return 1; // Only sale selected
+        } else if (isPurchaseChecked) {
+            return 2; // Only purchase selected
+        } else {
+            return null; // None selected
+        }
+    }
 
-    // Función para agregar o restar meses a una fecha
+    // Adjust month by a given number of months
     function adjustMonth(date, months) {
-        var result = new Date(date);
-        result.setDate(1); // Establece el día del mes a 1 para evitar desbordamiento
+        const result = new Date(date);
+        result.setDate(1);
         result.setMonth(result.getMonth() + months);
         return result;
     }
 
-    const minDate = new Date(2024, 4, 1); // Abril de 2024, los meses en JavaScript comienzan en 0
-    const maxDate = new Date();
-    maxDate.setDate(1); // Ajustar al primer día del mes para comparar solo mes y año
-    
-    $('#prev-day').click(function() {
-        let currentDate = new Date($('#month-picker').val() + "-01");
-        let prevMonth = adjustMonth(currentDate, -1);
+    // Handle previous month button click
+    function handlePrevMonth() {
+        const currentDate = new Date($('#month-picker').val() + "-01");
+        const prevMonth = adjustMonth(currentDate, -1);
+        const minDate = new Date(2024, 3, 1);
+
         if (prevMonth >= minDate) {
-            $('#month-picker').val(prevMonth.toISOString().split('T')[0].slice(0, 7)).change();
+            $('#month-picker').val(formatDateForPicker(prevMonth)).change();
         } else {
-            $('#month-picker').val(minDate.toISOString().split('T')[0].slice(0, 7)).change();
+            $('#month-picker').val(formatDateForPicker(minDate)).change();
         }
-    });
-    
-    $('#next-day').click(function() {
-        let currentDate = new Date($('#month-picker').val() + "-01");
-        let nextMonth = adjustMonth(currentDate, 1);
+    }
+
+    // Handle next month button click
+    function handleNextMonth() {
+        const currentDate = new Date($('#month-picker').val() + "-01");
+        const nextMonth = adjustMonth(currentDate, 1);
+        const maxDate = new Date();
+        maxDate.setDate(1);
+
         if (nextMonth <= maxDate) {
-            $('#month-picker').val(nextMonth.toISOString().split('T')[0].slice(0, 7)).change();
+            $('#month-picker').val(formatDateForPicker(nextMonth)).change();
         } else {
-            $('#month-picker').val(maxDate.toISOString().split('T')[0].slice(0, 7)).change();
+            $('#month-picker').val(formatDateForPicker(maxDate)).change();
         }
-    });
+    }
 
-    // Evento de doble clic en las filas del DataTable
-    $('#SaleItemsTable tbody').on('dblclick', 'tr', function() {
-        var itemId = $(this).attr('value');
+    // Format date for month-picker input
+    function formatDateForPicker(date) {
+        return date.toISOString().split('T')[0].slice(0, 7);
+    }
+
+    // Handle double click on DataTable row
+    function handleRowDoubleClick() {
+        const itemId = $(this).attr('value');
         window.location.href = 'http://localhost/wowscrap/items.php?item=' + itemId;
-    });
+    }
 
-    // Carga inicial con el mes actual y ambos tipos seleccionados
-    updateTransactions();
-    $.ajax({
-        url: './controller.php',
-        type: 'GET',
-        data: {
-            action: 'getSalesAside'
-        },
-        dataType: 'json',
-        success: function(data) {
-            // Asumiendo que 'data' es un objeto con las propiedades necesarias
-            // Ejemplo: data = { totalSpent: 1000, totalEarned: 1500, ... }
-            $('#generalDataTable tbody').empty(); // Limpiar la tabla antes de rellenarla
-            
-            // Rellenar la tabla con los nuevos datos
-            $('#generalDataTable tbody').append(`
-                <tr>
-                    <th scope="row">Total spent on purchases:</th>
-                    <td>${data.totalSpent}</td>
-                </tr>
-                <tr>
-                    <th scope="row">Total earned from sales:</th>
-                    <td>${data.totalEarned}</td>
-                </tr>
-                <tr>
-                    <th scope="row">Difference:</th>
-                    <td>${data.difference}</td>
-                </tr>
-                <tr>
-                    <th scope="row">Best-selling item:</th>
-                    <td>${data.bestSellingItem}</td>
-                </tr>
-                <tr>
-                    <th scope="row">Most purchased item:</th>
-                    <td>${data.mostPurchasedItem}</td>
-                </tr>
-            `);
-        },
-        error: function(xhr, status, error) {
-            console.error("Error fetching sales data:", error);
-        }
-    });
+    // Fetch and display sales aside data
+    function fetchSalesAside() {
+        $.ajax({
+            url: './controller.php',
+            type: 'GET',
+            data: {
+                action: 'getSalesAside'
+            },
+            dataType: 'json',
+            success: handleSalesAsideSuccess,
+            error: function (xhr, status, error) {
+                console.error("Error fetching sales data:", error);
+            }
+        });
+    }
+
+    // Handle successful sales aside data fetch
+    function handleSalesAsideSuccess(data) {
+        $('#generalDataTable tbody').empty();
+        $('#generalDataTable tbody').append(`
+            <tr>
+                <th scope="row">Total spent on purchases:</th>
+                <td>${data.totalSpent}</td>
+            </tr>
+            <tr>
+                <th scope="row">Total earned from sales:</th>
+                <td>${data.totalEarned}</td>
+            </tr>
+            <tr>
+                <th scope="row">Difference:</th>
+                <td>${data.difference}</td>
+            </tr>
+            <tr>
+                <th scope="row">Best-selling item:</th>
+                <td>${data.bestSellingItem}</td>
+            </tr>
+            <tr>
+                <th scope="row">Most purchased item:</th>
+                <td>${data.mostPurchasedItem}</td>
+            </tr>
+        `);
+    }
 });
