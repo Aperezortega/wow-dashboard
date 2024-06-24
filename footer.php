@@ -8,7 +8,7 @@
     </div>
     <span class="text-muted text-center mb-3 mb-md-0"> This items & prices correspond with World of Warcraft Cataclysm classic - Gehennas EU</span>  
 
-    <ul class="nav col-md-4 justify-content-center justify-content-md-center list-unstyled d-flex me-2">
+    <ul class="nav col-md-4 justify-content-lg-end justify-content-md-center list-unstyled d-flex me-2">
         <li class="ms-3"><a class="text-muted" href="#"><i class="bi bi-linkedin" style="font-size: 24px;"></i></a></li>
         <li class="ms-3"><a class="text-muted" href="#"><i class="bi bi-github" style="font-size: 24px;"></i></a></li>
     </ul>
