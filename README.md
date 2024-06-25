@@ -25,4 +25,4 @@ What are the cheapest herbs that i can buy to craft said inks?
 * side table with the top 10 most expensive Glyphs available for sale and which ink is needed for crafting.
 ![Main Panel](assets/screenshots/top10.png)
 * side table that shows what is the cheapest Herb on the market for each ink (multiple herbs can be used to craft the same ink).
-  ![Main Panel](assets/screenshots/inkHerbs.png)
+![Main Panel](assets/screenshots/inkHerbs.png)
