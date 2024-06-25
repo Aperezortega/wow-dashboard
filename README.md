@@ -16,7 +16,7 @@ ___
 **2. What are the inks that i need for such glyphs?**  
 **3. What are the cheapest herbs that i can buy to craft said inks?**  
 
-This project answers such questions easily and provide us with useful indicators
+This project answers such questions easily and provide us with useful indicators.
 
 ## FEATURES:
 
@@ -40,3 +40,13 @@ ___
 * Monthly table with all the transactions with fields for item, date, price, quantity, AVG price and % with AVG **(Anything bought over AVG or sold below AVG will be flagged as red. Likewise anything bought below AVG or sold above AVG will be marked as green)**
 * Aside table with General sales data.
 ![Main Panel](assets/screenshots/salesPage.png)
+___
+
+## REQUIREMENTS:
+* A database manager [i use HeidiSQL](https://www.heidisql.com/download.php).
+* A local server that can run PHP [i use XAMPP](https://www.apachefriends.org/es/index.html).
+* World of warcraft ( You know where to find it).
+* [Auctionator](https://www.curseforge.com/wow/addons/auctionator).
+___
+## INSTALLATION:
+
