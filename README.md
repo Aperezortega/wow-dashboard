@@ -12,9 +12,9 @@ ___
 
 This leaves us with the following problematic:
 
-**1. What are the most expensive Glyphs that i can craft?**
-**2. What are the inks that i need for such glyphs?**
-**3. What are the cheapest herbs that i can buy to craft said inks?**
+**1. What are the most expensive Glyphs that i can craft?**  
+**2. What are the inks that i need for such glyphs?**  
+**3. What are the cheapest herbs that i can buy to craft said inks?**  
 
 **This project answers such questions easily and provide us with useful indicators**
 
