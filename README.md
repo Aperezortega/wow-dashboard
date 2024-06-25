@@ -108,6 +108,7 @@ ___
 * [DOMPARSER](https://simplehtmldom.sourceforge.io/docs/1.9/index.html).
 * [igTree](https://www.igniteui.com/help/igtree-overview).
 * [Chart.js](https://www.chartjs.org/).
+* [DataTables](https://datatables.net/).
 ___
 ## CONTRIBUTING:
 If you would like to contribute to the development of this addon:
