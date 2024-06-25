@@ -4,15 +4,7 @@ $(document).ready(function() {
 
     var priceChart;
     var ctx = $('#priceChart')[0].getContext('2d');
-
-    function formatPrice(price) {
-        var roundedPrice = Math.round(price).toString();
-        var gold = roundedPrice.slice(0, -4);
-        var silver = roundedPrice.slice(-4, -2);
-        var copper = roundedPrice.slice(-2);
-        return `<span class="gold">${gold}</span><span class="silver">${silver}</span><span class="copper">${copper}</span>`;
-    }
-
+    
     function createChart(data, fechas, name) {
         return new Chart(ctx, {
             type: 'line',

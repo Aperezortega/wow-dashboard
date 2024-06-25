@@ -2131,3 +2131,7 @@
 [2024-06-22 09:58:11] LINE 38: REAGENT FOUND FOR ITEM Resilient Parchment WITH QUANTITY 1
 [2024-06-22 09:58:11] LINE 62: New ARQ record created successfully
 [2024-06-22 09:58:11] LINE 62: New ARQ record created successfully
+[2024-06-25 09:29:56] LINE 38: REAGENT FOUND FOR ITEM Ink of the Sea WITH QUANTITY 3
+[2024-06-25 09:29:58] LINE 38: REAGENT FOUND FOR ITEM Resilient Parchment WITH QUANTITY 1
+[2024-06-25 09:29:58] LINE 62: New ARQ record created successfully
+[2024-06-25 09:29:58] LINE 62: New ARQ record created successfully

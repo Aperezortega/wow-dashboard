@@ -1,49 +1,122 @@
 $(document).ready(function() {
-    var table = $('#itemsTable').DataTable();
+
+    // Declaración de variables
+    var table = initializeDataTable();
+    const today = new Date().toISOString().split('T')[0];
+
+    // Inicializar componentes y eventos
+    initializeDatePicker();
+    initializeTypeSelector();
+    setupEventHandlers();
     fetchItemsAndInks();
+    getItems();
+
+    // Funciones
+
+    function initializeDatePicker() {
+        $('#date-picker').attr('max', today);
+        $('#date-picker').val(today);
+    }
+
+    function initializeTypeSelector() {
+        $.ajax({
+            url: './controller.php',
+            type: 'GET',
+            data: { action: 'getTypes' },
+            success: function(response) {
+                var types = JSON.parse(response);
+                $('#typeSelector').append('<option value="-1">All</option>');
+                $.each(types, function(id, name) {
+                    $('#typeSelector').append('<option value="' + id + '">' + name + '</option>');
+                });
+            },
+            error: function() {
+                console.log('Error al obtener los tipos');
+            }
+        });
+    }
+
+    function setupEventHandlers() {
+        $('#date-picker, #typeSelector').change(getItems);
+
+        $('#prev-day').click(function() {
+            var date = $('#date-picker').val();
+            var prevDay = new Date(date);
+            prevDay.setDate(prevDay.getDate() - 1);
+            $('#date-picker').val(prevDay.toISOString().split('T')[0]);
+            getItems();
+        });
+
+        $('#next-day').click(function() {
+            var date = $('#date-picker').val();
+            var nextDay = new Date(date);
+            if (nextDay.toISOString().split('T')[0] < today) {
+                nextDay.setDate(nextDay.getDate() + 1);
+                $('#date-picker').val(nextDay.toISOString().split('T')[0]);
+                getItems();
+            }
+        });
+
+        $(document).on('dblclick', '#itemsTable tbody tr', function() {
+            var itemId = $(this).attr('value');
+            window.location.href = 'http://localhost/wowscrap/items.php?item=' + itemId;
+        });
+    }
+
+    function initializeDataTable() {
+        return $('#itemsTable').DataTable({
+            pageLength: 25
+        });
+    }
+
     function getItems() {
         var date = $('#date-picker').val();
         var type = $('#typeSelector').val();
+        type = type === null || type === undefined || type === "" ? -1 : type; // Asegurarse de que `type` tenga un valor válido
         $.ajax({
             url: './controller.php',
             type: 'GET',
             data: { action: 'getItems', date: date, type: type },
-            success: function(response) {
-                console.log(response);
-                var data = JSON.parse(response);
-                var html = '';
-                for (var i = 0; i < data.length; i++) {
-                    html += '<tr value="' + data[i].id_item + '">';
-                    html += '<td>' + (i+1) + '</td>';
-                    html += '<td>' + data[i].name + '</td>';
-                    var averagePrice = (data[i].average_price / 10000).toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                    html += '<td>' + averagePrice + '</td>';
-                    var price = (data[i].price / 10000).toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                    html += '<td>' + price + '</td>';
-                    var percentageClass = data[i].percentage_difference < 0 ? 'negative' : 'positive';
-                    html += '<td class="' + percentageClass + '">' + data[i].percentage_difference + '%</td>';
-                    var profit = (data[i].profit / 10000).toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                    html += '<td>' + profit + '</td>';
-                    html += '<td></td>';
-                    html += '</tr>';
-    }
-                table.destroy(); 
-                $('#itemsTable tbody').empty().append(html);
-                table = $('#itemsTable').DataTable({
-                    pageLength: 25
-                }); 
-                $(document).on('dblclick', '#itemsTable tbody tr', function() {
-                    var itemId = $(this).attr('value');
-                    window.location.href = 'http://localhost/wowscrap/items.php?item=' + itemId;
-                });
-            },
+            success: handleItemsSuccess,
             error: function() {
                 console.log('Error al obtener los items');
             }
         });
     }
+
+    function handleItemsSuccess(response) {
+        var data = JSON.parse(response);
+        console.log('Items:', data);
+        table.clear();
+
+        data.forEach((item, index) => {
+            const averagePrice = item.average_price / 10000;
+            const price = item.price / 10000;
+            const profit = item.profit / 10000;
+            const percentageClass = item.percentage_difference < 0 ? 'negative' : 'positive';
+
+            const rowNode = table.row.add([
+                index + 1,
+                item.name,
+                formatNumber(averagePrice),
+                formatNumber(price),
+                item.percentage_difference + '%',
+                formatNumber(profit),
+                item.sold
+            ]).draw().node();
+
+            $(rowNode).attr('value', item.id_item);
+            $(rowNode).find('td').eq(4).addClass(percentageClass);
+        });
+
+        table.draw();
+    }
+
+    function formatNumber(number) {
+        return number.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
     function fetchItemsAndInks() {
-        // Realizar la llamada AJAX
         $.ajax({
             url: './controller.php',
             type: 'GET',
@@ -52,7 +125,6 @@ $(document).ready(function() {
             success: function(data) {
                 console.log('####################################');
                 console.log(data);
-                // Asumiendo que `data` tiene dos propiedades: items y inks
                 fillTable('#top10', data.glyphs, ['Glyph', 'Ink']);
                 fillTable('#cheapestHerbs', data.inks, ['name', 'herbs']);
             },
@@ -61,10 +133,10 @@ $(document).ready(function() {
             }
         });
     }
-    
+
     function fillTable(tableId, data, columns) {
         const $tableBody = $(tableId).find('tbody');
-        $tableBody.empty(); // Limpiar el cuerpo de la tabla antes de llenarlo
+        $tableBody.empty();
     
         $.each(data, function(index, row) {
             const $tr = $('<tr></tr>');
@@ -75,43 +147,4 @@ $(document).ready(function() {
             $tableBody.append($tr);
         });
     }
-    $.ajax({
-        url: './controller.php', 
-        type: 'GET',
-        data: { action: 'getTypes' },
-        success: function(response) {
-            var types = JSON.parse(response);
-            $('#typeSelector').append('<option value="-1">All</option>');
-            $.each(types, function(id, name) {
-                $('#typeSelector').append('<option value="' + id + '">' + name + '</option>');
-            });
-            var today = new Date().toISOString().split('T')[0];
-            $('#date-picker').attr('max', today);
-            $('#date-picker').val(today);
-
-            $('#prev-day').click(function() {
-                var date = $('#date-picker').val();
-                var prevDay = new Date(date);
-                prevDay.setDate(prevDay.getDate() - 1);
-                $('#date-picker').val(prevDay.toISOString().split('T')[0]);
-                getItems();
-            });
-
-            $('#next-day').click(function() {
-                var date = $('#date-picker').val();
-                var nextDay = new Date(date);
-                if (nextDay.toISOString().split('T')[0] < today) {
-                    nextDay.setDate(nextDay.getDate() + 1);
-                    $('#date-picker').val(nextDay.toISOString().split('T')[0]);
-                    getItems();
-                }
-            });
-            getItems();
-            $('#date-picker, #typeSelector').change(getItems);
-            
-        },
-        error: function() {
-            console.log('Error al obtener los tipos');
-        }
-    });
 });
