@@ -101,8 +101,18 @@ if %errorlevel% equ 0 (
 * live server must be on before executing bat file.
 ___
 
-## LIBRARIES & STACK USED:
-* bootstrap
-* jQuery
-* Vanilla PHP
-* [DOMPARSER](https://simplehtmldom.sourceforge.io/docs/1.9/index.html)
+## LIBRARIES & TECHS USED:
+* Bootstrap.
+* jQuery.
+* Vanilla PHP.
+* [DOMPARSER](https://simplehtmldom.sourceforge.io/docs/1.9/index.html).
+* [igTree](https://www.igniteui.com/help/igtree-overview).
+*[Chart.js](https://www.chartjs.org/).
+___
+## CONTRIBUTING:
+If you would like to contribute to the development of this addon:
+
+Fork the repository. Create a new branch (git checkout -b feature-branch). Commit your changes (git commit -m 'Add new feature'). Push to the branch (git push origin feature-branch). Open a Pull Request. License This addon is licensed under the MIT License.
+___
+## CONTACT:
+For questions or support, you can reach me on discord AIPOX #8367 or [Linkedin](https://www.linkedin.com/in/albertoperezortega/).
