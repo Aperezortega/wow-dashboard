@@ -1,119 +1,88 @@
-## INTRODUCTION
+This World of Warcraft Inscription Helper Dashboard is designed to help players maximize their profits by identifying the most profitable glyphs to craft, the required inks, and the most economical herbs to buy. The elements are created from Auctionator shopping lists, and item information is scraped from Wowhead using the HTML DOM parser.
+## Features
 
-This is a helper dashboard for World of Warcraft Inscription profession. 
+- **Data tables and side tables with relevant information**:
+- **Item page with detailed info, component treelike view and graphs**:
+- **sales/purchases registry**:
+- **Scripts for reading and uploading daily export data from auctionator export.csv**:
+- **Wowhead item and item reagent scrapping**:
+- **Lua addon for wow that records all AH Sales/purchases by reading mailbox**:
 
-### What do you need to know if you don´t know world of warcraft:
-* players have professions.
-* professions can be used to craft and sell common trade goodies in a marketplace.
-* this particular profession have 350+ different items  called **Glyphs**.
-* Glyphs are crafted using **inks** which in turn are crafted using **Herbs** that can be harvested or bought.
+## How It Works
 
-___
+### Workflow
 
-### This leaves us with the following problematic:
 
-**1. What are the most expensive Glyphs that i can craft?**  
-**2. What are the inks that i need for such glyphs?**  
-**3. What are the cheapest herbs that i can buy to craft said inks?**  
+1. **Price comparisson **:
+   - Use the Auctionator addon to create a shopping list.
+   - Search for all items in the shopping list.
+   - Export the data and save it as `assets/export.csv`.
+   - Execute the `scripts/insertExport.php` script to insert the data into the database.
 
-This project answers such questions easily and provide us with useful indicators.
+2. **Sales/Purchase data**:
+   - Install Addon from subfolder wowMailLedger or from its repository: [https://github.com/Aperezortega/wowMailLedger](Github Repository)
+   - Copy  the following file C:\Program Files (x86)\World of Warcraft\_classic_\WTF\Account\**YOUR ACCOUNT**\SavedVariables\AipoxMailLedger.lua" (there is a bat file in assets to automatize this)
+   - Execute 'scrips/insertTransactions.php' in order to insert the transactions data into the db
 
-## FEATURES:
+### Scripts
 
-### On Main Page:
-* Daily dataTables with fields for current price, average price, difference with yesterday and profit from selling said items.
-![Main Panel](assets/screenshots/mainTable.png)
-* side table with the top 10 most expensive Glyphs available for sale and which ink is needed for crafting.
-![Main Panel](assets/screenshots/top10.png).
-* side table that shows what is the cheapest Herb on the market for each ink (multiple herbs can be used to craft the same ink).
-* ![Main Panel](assets/screenshots/inkHerbs.png)
-___
+1. **insertExport.php**:
+   - **Purpose**: Reads data from a CSV file and inserts it into the database.
+   - **Functionality**:
+     - Opens and reads the `assets/export.csv`
+     - Parses the data and selects relevant columns (Price, Name, Available).
+     - Inserts the data into the `scrap` table in the database.
+     - **If an item is not found in the `items` table, it creates a new item entry and look up the item in wowhead to find its reagents, and introduces them also in the database**
 
-### On Items Page:
-* Table with Min, Max, AVG and current Data.
-* Recursive reagent tree displaying reagent, number of them  needed and individual price.
-* Line chart displaying the evolution of price over time.
- ![Main Panel](assets/screenshots/itemsPage.png)
-___
+2. **insertTransactions.php**:
+   - **Purpose**: Reads transaction data from a Lua file and inserts it into the database.
+   - **Functionality**:
+     - Opens and reads the `AipoxMailLedger.lua`
+     - Uses regular expressions to extract transaction data.
+     - Parses the data and stores it in an array.
+     - Inserts the transaction data into the database.
 
-### On Sales Page:
-* Monthly table with all the transactions with fields for item, date, price, quantity, AVG price and % with AVG **(Anything bought over AVG or sold below AVG will be flagged as red. Likewise anything bought below AVG or sold above AVG will be marked as green)**
-* Aside table with General sales data.
-![Main Panel](assets/screenshots/salesPage.png)
-___
+3. **copia.bat**:
+   - **Purpose**: Automates the process of copying the Lua file and executing the PHP script to insert data into the database.
+   - **Functionality**:
+     - Copies the `AipoxMailLedger.lua` file from the World of Warcraft directory to the GitHub repository directory.
+     - Deletes the original Lua file and its backup if the copy is successful.
+     - Opens a web browser to execute the `insertTransactions.php` script, which inserts the data into the database.
 
-## REQUIREMENTS:
-* A database manager [i use HeidiSQL](https://www.heidisql.com/download.php).
-* A local server that can run PHP [i use XAMPP](https://www.apachefriends.org/es/index.html).
-* World of warcraft ( You know where to find it).
-* [Auctionator](https://www.curseforge.com/wow/addons/auctionator).
-___
-## INSTALLATION:
- **FOR MAIN PANEL AND ITEMS PAGE ONLY**
-* Download the project  from release.
-* Execute wowscrap.sql Database query. This will have included prices and items up untill 25.06.2024.
-* Open live server and go!
-___
-**FOR SALES/PURCHASES DATA**
-* You need aswell to download and install a World of warcraft addon to register all the sales/purchases from your in-game Mail  [AipoxMailLedger](https://github.com/Aperezortega/wowMailLedger).
+## Setup Instructions
 
-## HOW DOES IT WORK AND HOW DO I USE IT?
+### Prerequisites
 
-First and all we need to understand how does the program works before using it.
+- A database manager (e.g., [HeidiSQL](https://www.heidisql.com/download.php)).
+- A local server capable of running PHP (e.g., [XAMPP](https://www.apachefriends.org/es/index.html)).
+- The Auctionator addon for creating shopping lists in World of Warcraft. You can download it from [CurseForge](https://www.curseforge.com/wow/addons/auctionator).
+- The wowMailLedger addon (that i made) for recording all auction house sales/purchases by reading the mailbox. You can download it from its repository: [wowMailLedger](https://github.com/Aperezortega/wowMailLedger).
 
-### For price data:
-The workflow starts by us scanning the prices of the  Auction House using a shopping list. For this we need the in-game auctionator addon.  
-This addon includes a feature called **"Shopping Lists"** which can scan multiple items at once and let us copy the output into our file **export.csv**  
-I have included a file with my auctionator Shopping list in this project.
-___
+### Installation
 
-After this step is done, we need to execute insertExport.php script. Can do this using vscode terminal.
-~~~~~
->>cd scripts
->>php insertExport.php
-~~~~~
+1. **Download and Install Prerequisites**:
+   - Download and install HeidiSQL.
+   - Download and install XAMPP.
 
-What this script will do is open the file export.csv and will go throught every line and insert the item into the database and if the item does not exist, it will execute the script wowhead.php.  This will scrap wowhead´s page and will find the reagents needed to craft this particular item and insert the info into architecture table. This is needed for the Reagent tree and in order to calculate the crafting costs.
+### Code Structure
 
-This will be all for the prices section.
-___
+- **index.php**: The main entry point for the dashboard. It initializes the application and loads the main interface.
+- **items.php**: Contains the logic for the items page, displaying Min, Max, AVG, and current data, a recursive reagent tree, and a price evolution line chart.
+- **salespurchases.php**: Contains the logic for the sales and purchases page, including a monthly table with all transactions and a general sales data table.
+- **db.php**: Manages the database connection and interactions.
+- **controller.php**: Acts as the controller for handling requests and coordinating between the view and the model.
+- **functions.php**: Contains various helper functions used throughout the application.
+- **scripts/**: Contains various PHP scripts for data processing and database interactions:
+  - **insertExport.php**: Reads data from a CSV file and inserts it into the database.
+  - **insertTransactions.php**: Reads transaction data from a Lua file and inserts it into the database.
+  - **copia.bat**: Automates the process of copying the Lua file and executing the PHP script to insert data into the database.
+- **htmldomparser/**: Contains the HTML DOM parser library used for parsing HTML content.
+- **wowMailLedger/**: Contains the submodule for handling mail ledger data.
+- **assets/**: Contains static assets such as the `export.csv` file used for importing price data and copia.bat to copy and delete addon files into the repository folder.
+### Customization
 
-### For sales data:
-With the addon i have created installed [AipoxMailLedger](https://github.com/Aperezortega/wowMailLedger). the solution i have come with is to create a .bat task and execute it once a day. The task will copy the ingame addon database, copy it into the repository folder then execute insertTransactions.php script and delete the file from the addon folder.
+- **Addon Usage**: The addon can be used for any profession, not just Inscription. The elements inserted into the database are those added to the Auctionator shopping list, allowing for flexibility in tracking and managing items across different professions.
 
-~~~~
-@echo off
-:: Copy
-copy "C:\Program Files (x86)\World of Warcraft\_classic_\WTF\Account\**YOUR USER**\SavedVariables\AipoxMailLedger.lua" "C:\**YOUR REPO FOLDER ROUTE**\GitHub\wowscrap\"
+### Disclaimer
 
-:: If copied Delete
-if %errorlevel% equ 0 (
-    del "C:\Program Files (x86)\World of Warcraft\_classic_\WTF\Account\**YOUR USER**\SavedVariables\AipoxMailLedger.lua"
-    del "C:\Program Files (x86)\World of Warcraft\_classic_\WTF\Account\**YOUR USER**\SavedVariables\AipoxMailLedger.lua.bak"
-)
-:: Execute insert into DB
-"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" http://localhost/wowscrap/scripts/insertTransactions.php
-
-~~~~
-
-### WARNING! 
-* the script insertTransactions.php assumes that the  file AipoxMailLedger.lua will be copied into the project folder. 
-* live server must be on before executing bat file.
-___
-
-## LIBRARIES & TECHS USED:
-* Bootstrap.
-* jQuery.
-* Vanilla PHP.
-* [DOMPARSER](https://simplehtmldom.sourceforge.io/docs/1.9/index.html).
-* [igTree](https://www.igniteui.com/help/igtree-overview).
-* [Chart.js](https://www.chartjs.org/).
-* [DataTables](https://datatables.net/).
-___
-## CONTRIBUTING:
-If you would like to contribute to the development of this addon:
-
-Fork the repository. Create a new branch (git checkout -b feature-branch). Commit your changes (git commit -m 'Add new feature'). Push to the branch (git push origin feature-branch). Open a Pull Request. License This addon is licensed under the MIT License.
-___
-## CONTACT:
-For questions or support, you can reach me on discord AIPOX #8367 or [Linkedin](https://www.linkedin.com/in/albertoperezortega/).
+This tool is intended for educational purposes only. Please respect the terms of service of World of Warcraft.

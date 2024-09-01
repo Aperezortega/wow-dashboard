@@ -59,7 +59,7 @@ $(document).ready(function() {
 
         $(document).on('dblclick', '#itemsTable tbody tr', function() {
             var itemId = $(this).attr('value');
-            window.location.href = 'http://localhost/wowscrap/items.php?item=' + itemId;
+            window.location.href = 'http://localhost/wow-dashboard/items.php?item=' + itemId;
         });
     }
 
