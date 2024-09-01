@@ -1,0 +1,3 @@
+[submodule "wowMailLedger"]
+	path = wowMailLedger
+	url = https://github.com/Aperezortega/wowMailLedger.git
